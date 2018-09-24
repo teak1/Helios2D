@@ -26,7 +26,7 @@
 		var temp = Helios;
 		Helios = createModuleOwner();
 		Helios.exports.module = createModuleOwner;
-		var scripts = ["Core.Math.Helios.js", "Core.Worker.js", "Core.Render.Interface.Helios.js", "Core.Surface.Helios.js", "Core.ThreadAgent.Helios.js", "Core.game.Object.Helios.js", "Core.game.Helios.js"];
+		var scripts = ["Core.Math.Helios.js", "Core.Worker.js", "Core.Render.Interface.Helios.js", "Core.Surface.Helios.js", "Core.ThreadAgent.Helios.js", "Core.game.Object.Helios.js", "Core.game.Helios.js", "Core.game.UI,Helios.js"];
 		var a = 0;
 		scripts.forEach((_, b) => {
 			a++;
@@ -46,6 +46,7 @@
 		var b = () => {
 			if (a === 0) {
 				// console.log(temp);
+				debugger;
 				temp.load.forEach(a_ => a_());
 				console.log(`%cHelios`, "font-size:32px;color:red;background-color:#110000;");
 				console.groupCollapsed("info");
@@ -58,7 +59,9 @@
 		b();
 	});
 	Helios = {
-		load: []
+		load: [() => {
+			window.all = Helios.require("all");
+		}]
 	};
 	Helios.on = function (func) {
 		Helios.load.push(func);

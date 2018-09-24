@@ -28,4 +28,4 @@
 	}
 	GObject.exports.GOCollidable = _GOCollidable;
 	Helios.exports.GObject = GObject.require("all");
-})(window)
+})(window);

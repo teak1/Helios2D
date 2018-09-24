@@ -41,20 +41,23 @@
 			this.UIContainer.style.height = this.height + "px";
 			this.UIContainer.style.position = "absolute";
 			setTimeout(() => {
-				var rect = this._elt.getClientRects()[0];
-				this.listener.style.top = rect.top + "px";
-				this.listener.style.left = rect.left + "px";
-				this.listener.style.width = rect.width + "px";
-				this.listener.style.height = rect.hieght + "px";
-				this.UIContainer.style.top = rect.top + "px";
-				this.UIContainer.style.left = rect.left + "px";
-				this.UIContainer.style.width = rect.width + "px";
-				this.UIContainer.style.height = rect.hieght + "px";
 				this._elt.parentElement.appendChild(this.UIContainer);
 				this._elt.parentElement.appendChild(this.listener);
 				this.listener.focus();
+				setInterval(_ => this.__align__(), 100);
 				// console.log(rect);
 			});
+		}
+		__align__() {
+			var rect = this._elt.getClientRects()[0];
+			this.listener.style.top = rect.y + "px";
+			this.listener.style.left = rect.x + "px";
+			this.listener.style.width = rect.width + "px";
+			this.listener.style.height = rect.hieght + "px";
+			this.UIContainer.style.top = rect.top + "px";
+			this.UIContainer.style.left = rect.left + "px";
+			this.UIContainer.style.width = rect.width + "px";
+			this.UIContainer.style.height = rect.hieght + "px";
 		}
 		event(type, func) {
 			this.events[type] = this.events[type] || [];
@@ -96,12 +99,16 @@
 			}));
 		}
 		image(image, x, y, w, h) {
+			if (image === undefined) return
 			this.renderCommands.push(new renderCommand({
 				type: "image",
 				pos: new math.Vector2D(x, y),
 				size: new math.Vector2D(w, h),
 				image: image
 			}));
+		}
+		getUILayer() {
+			return this.UIContainer;
 		}
 	}
 	class renderCommand {

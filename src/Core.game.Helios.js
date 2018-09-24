@@ -13,12 +13,14 @@
 		constructor(width, height, element) {
 			this.threadAgent = new(createNewAgent("ThreadAgent").Agent)();
 			this.renderAgent = createNewAgent("Render");
-			this.uiAgent = createNewAgent("HUI");
 			this.assets = {};
+
 			this.game = {
 				collisions: [],
 				surface: this.renderAgent.Agent.createSurface(width || 400, height || 400, element),
-				events: {}
+				events: {},
+				frametime: 0,
+				color_helper: Helios.require("Color")
 			};
 			this.collision_handler = this.threadAgent.addFunctionThread(function (data) {
 				if (data === "ping") return "pong";
@@ -37,12 +39,11 @@
 				}
 				return colliding;
 			});
-			this.game.collisions.push(new Objects.GOCollidable(0, 0, 50, 50, true));
-			this.game.collisions.push(new Objects.GOCollidable(50, 0, 50, 50, false));
 			this.collision_handler.setReturn(_ => _.length >= 1 ? console.warn(_) : "");
 			this.user = {
 				mouse: new math.Vector2D(),
-				keys: {}
+				keys: {},
+				mousePressed: false
 			};
 			this.game.surface.event("mousemove", _ => {
 				var surf = this.game.surface._elt.getClientRects()[0];
@@ -55,7 +56,21 @@
 			this.game.surface.event("keyup", _ => {
 				this.user.keys[_.key] = false;
 			});
+			this.game.surface.event("mousedown", _ => {
+				this.user.mousePressed = _.which;
+			});
+			this.game.surface.event("mouseup", _ => {
+				this.user.mousePressed = false;
+			});
 			this.__draw__();
+		}
+		key(ord) {
+			if (this.user.keys) {
+				if (this.user.keys[ord]) {
+					return true;
+				}
+			}
+			return false;
 		}
 		on(event, func) {
 			this.game.events[event] = this.game.events[event] || [];
@@ -84,12 +99,17 @@
 			}
 		}
 		__draw__() {
+			var start = performance.now();
 			if (this.game.events.draw) {
-				this.game.events.draw.forEach(func => func(this.game.surface));
+				this.game.events.draw.forEach(func => func(this.game.surface, this.game.color_helper));
 			}
 			this.pysicsUpdate();
 			this.game.surface.__render__();
 			setTimeout(_ => this.__draw__(), 1000 / 60);
+			var end = performance.now();
+			var difference = end - start;
+			this.game.frametime += difference;
+			this.game.frametime /= 2;
 		}
 		get Object() {
 			return Helios.require("WorldObject").Object;

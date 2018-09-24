@@ -1,5 +1,5 @@
 function game() {
-	var Game = new(Helios.require("Game"))(400, 400);
+	var Game = new(Helios.require("Game"))(innerWidth / 2, innerHeight / 2);
 	Game.loadAsset("./assets/test.jpeg", (img) => {
 		Game.registerAsset("test", img);
 	});
@@ -11,6 +11,9 @@ function game() {
 		ren.rect(Game.user.mouse.x, Game.user.mouse.y, 50, 50);
 		// console.log(Game.user.keys);
 		ren.image(Game.assets.test, Game.user.mouse.x, Game.user.mouse.y, 50, 50);
+		if (debug) {
+			debug.innerHTML = JSON.stringify(Game);
+		}
 	});
 }
 Helios.on(game);
