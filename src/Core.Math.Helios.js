@@ -42,7 +42,7 @@
 			this.pos = new Vector2D(x, y);
 			this.size = new Vector2D(w || y, h);
 		}
-	}
+	};
 	math.exports.Volume2D = Volume2D;
 	math.exports.Vector2D = Vector2D;
 	Helios.exports.Math = math.require("all");

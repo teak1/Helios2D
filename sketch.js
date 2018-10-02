@@ -12,8 +12,9 @@ function game() {
 		// console.log(Game.user.keys);
 		ren.image(Game.assets.test, Game.user.mouse.x, Game.user.mouse.y, 50, 50);
 		if (debug) {
-			debug.innerHTML = JSON.stringify(Game);
+			// debug.innerHTML = JSON.stringify(Game.collision_handler);
 		}
 	});
 }
-Helios.on(game);
+
+setTimeout(_ => Helios.on(game), 500);

@@ -4,6 +4,6 @@
 		constructor(surface) {
 			this.element = surface.getUILayer();
 		}
-	}
+	};
 	Helios.exports.UI = UI.require("all");
 })(window)

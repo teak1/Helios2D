@@ -30,7 +30,6 @@
 		}
 		register(thread) {
 			thread.on((a) => {
-				// console.log(a);
 				this.return(a);
 			});
 			if (this.Agent.count > this.Agent.maxThreads) return;

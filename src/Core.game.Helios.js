@@ -24,14 +24,10 @@
 			};
 			this.collision_handler = this.threadAgent.addFunctionThread(function (data) {
 				if (data === "ping") return "pong";
-				// console.log(data);
-				// return data;
 				var id = data.id;
 				var collisions = data.collisions;
 				var self = data.self;
 				var colliding = [];
-				// if (!collisions || !check_against) return -1;
-				// console.log(data);
 				for (var i = 0; i < collisions.length; i++) {
 					if (collisions[i].x > self.x + self.w && collisions[i].x + collisions[i].w > self.x && self.y < collisions[i].y + collisions[i].h && self.y + self.h > collisions[i].y) {
 						colliding.push([self.id, collisions[i].id]);

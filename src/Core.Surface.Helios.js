@@ -24,7 +24,7 @@
 			this.listener.style.overflow = "auto";
 			this.listener.style.resize = "none";
 			this.listener.style.outline = "0";
-			this.listener.style.cursor = "default"
+			this.listener.style.cursor = "default";
 			this.listener.style.color = "transparent";
 			this.listener.style.padding = "0px";
 			this.listener.addEventListener("mousedown", _ => this.__event_handler__(_));
@@ -45,7 +45,6 @@
 				this._elt.parentElement.appendChild(this.listener);
 				this.listener.focus();
 				setInterval(_ => this.__align__(), 100);
-				// console.log(rect);
 			});
 		}
 		__align__() {
@@ -64,8 +63,6 @@
 			this.events[type].push(func);
 		}
 		__event_handler__(event) {
-			// event.type.match(/mouse/) ? "" : console.log(event);
-			// console.log(event.type);
 			if (this.events[event.type]) this.events[event.type].forEach(fn => fn(event));
 			event.preventDefault();
 		}
@@ -74,17 +71,16 @@
 			this.height = height || this.height;
 		}
 		__render__() {
-			// console.log(this.renderCommands);
 			for (var i = 0; i < this.renderCommands.length; i++) {
 				if (this._elt) this.renderCommands[i].handle(this.context);
 			}
 			this.renderCommands = [];
 		}
 		fill(color) {
-			this.colors.fill = color; //parseInt(color.toString().replace(/#/g, ""), 16);
+			this.colors.fill = color;
 		}
 		stroke(color) {
-			this.colors.stroke = color; //parseInt(color.toString().replace(/#/g, ""), 16);
+			this.colors.stroke = color;
 		}
 		background() {
 			this.rect(-1, -1, this.width + 2, this.height + 2);
@@ -99,8 +95,7 @@
 			}));
 		}
 		image(image, x, y, w, h) {
-			if (image === undefined) return
-			this.renderCommands.push(new renderCommand({
+			if (image === undefined) return this.renderCommands.push(new renderCommand({
 				type: "image",
 				pos: new math.Vector2D(x, y),
 				size: new math.Vector2D(w, h),
@@ -121,12 +116,11 @@
 			this.image = opts.image;
 		}
 		handle(can) {
-			var ctx = can //.getContext("2d");
+			var ctx = can;
 			if (this.type === "rect") {
 				if (this.colorFill != 0) ctx.fillStyle = this.colorFill;
 				if (this.colorStroke != 0) ctx.strokeStyle = this.strokeStyle;
 				ctx.fillRect(this.pos.x, this.pos.y, this.size.x, this.size.y);
-				// ctx.fill();
 				ctx.stroke();
 			} else if (this.type === "image") {
 				ctx.drawImage(this.image, this.pos.x, this.pos.y, this.size.x, this.size.y);
@@ -135,6 +129,5 @@
 	}
 	Surface.exports._RC = renderCommand;
 	Surface.exports.Surface = _Surface;
-	// console.log(Surface);
 	Helios.exports.Surface = Surface.require("all");
 })(window)

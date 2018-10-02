@@ -22,7 +22,7 @@
 	}
 	class _GOCollidable extends _GVolume {
 		constructor(x, y, w, h, isStatic) {
-			super(x, y, w, h)
+			super(x, y, w, h);
 			this.static = isStatic;
 		}
 	}

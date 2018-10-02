@@ -8,22 +8,20 @@
 			"global={onmessage:function(){},postmessage:(msg)=>{postMessage(msg)}};func=" + func.toString() + ";onmessage=function(message){postMessage(func(message.data))}"
 		]);
 
-		// Obtain a blob URL reference to our worker 'file'.
 		var blobURL = window.URL.createObjectURL(blob);
 
 		var worker = new Worker(blobURL);
-		worker.postMessage("ping"); // Start the worker.
-		return worker
+		worker.postMessage("ping");
+		return worker;
 	}
 	class Thread {
 		constructor(func) {
 			if (WorkerSupported) {
 				this.worker = makeNewWorker(func);
 				this.worker.onmessage = message => {
-					// console.log(message);
 					this.avalable = true;
 					this.callback(message.data);
-				}
+				};
 				Threads.push(this.worker);
 			} else {
 				this.worker = new Function(func.toString());

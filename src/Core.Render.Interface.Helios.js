@@ -1,5 +1,4 @@
 ((window) => {
-	// p5Interface = Helios.require("module")();
 	var Render = Helios.require("module")();
 	var _Render = {
 		surfaces: []
@@ -19,10 +18,10 @@
 		__getRenderSurfaces() {
 			return _Render.surfaces;
 		}
-	}
+	};
 	Render.exports.createSurface = function (width, height) {
 		var render = Helios.require("Render");
 		return render.internal.__createRenderSurface__(width, height);
-	}
+	};
 	Helios.exports.Render = Render.require("all");
 })(window)
